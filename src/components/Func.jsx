@@ -87,7 +87,14 @@ export default function Func() {
       {hasCounter && <Counter counter={counter} name={issState.name} />}
       <button onClick={() => setCounter(c => c + 1)}>Increment Counter</button>
       <button onClick={() => setCounter(c => c - 1)}>Decrement Counter</button>
-      <button onClick={() => setInterval(() => setCounter(c => c + 1), 1000)}>
+      <button
+        onClick={() =>
+          setInterval(() => {
+            setCounter(counter + 1);
+            console.log(counter);
+          }, 1000)
+        }
+      >
         Auto increment
       </button>
     </div>

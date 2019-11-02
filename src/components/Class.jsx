@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 const API = "https://api.wheretheiss.at/v1/satellites/25544";
 
 export default class App extends Component {
@@ -11,7 +10,6 @@ export default class App extends Component {
       latitude: null,
       longitude: null,
       counter: 0,
-      cleanup: 0,
       loading: true
     };
   }
@@ -46,12 +44,6 @@ export default class App extends Component {
     this.setState({ hasCounter: counter });
   };
 
-  cleanUpFn = () => {
-    let cleanup = this.state.cleanup;
-    cleanup += 1;
-    this.setState({ cleanup });
-  };
-
   render() {
     return (
       <div>
@@ -63,14 +55,9 @@ export default class App extends Component {
           </div>
         )}
         <button onClick={() => this.triggerCounter()}>Toggle Counter</button>
-        <p>Cleaned up: {this.state.cleanup} time(s)</p>
         {this.state.hasCounter && (
           <>
-            <Counter
-              counter={this.state.counter}
-              cleanup={this.state.cleanup}
-              cleanUpFn={this.cleanUpFn}
-            />
+            <Counter counter={this.state.counter} />
             <button onClick={() => this.increment()}>Increment Counter</button>
             <button onClick={() => this.decrement()}>Decrement Counter</button>
           </>
@@ -84,20 +71,17 @@ class Counter extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      updatedCounter: 0
+      updatedCounter: 0,
+      render: 0
     };
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.counter !== prevProps.counter) {
-      let incrementedCounter = this.state.updatedCounter;
-      incrementedCounter += 1;
-      this.setState({ updatedCounter: incrementedCounter });
+      const updatedCounter = this.state.updatedCounter + 1;
+      const render = this.state.render + 1;
+      this.setState({ updatedCounter, render });
     }
-  }
-
-  componentWillUnmount() {
-    this.props.cleanUpFn();
   }
 
   render() {
@@ -105,6 +89,7 @@ class Counter extends Component {
       <div>
         <p>Counter: {this.props.counter}</p>
         <p>Updated counter: {this.state.updatedCounter}</p>
+        <p>Render: {this.state.render}</p>
       </div>
     );
   }
