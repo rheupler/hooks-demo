@@ -1,16 +1,6 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useReducer
-  // useContext,
-  // createContext
-} from "react";
-import ReactDOM from "react-dom";
+import React, { useState, useEffect, useRef, useReducer } from "react";
 
 const API = "https://api.wheretheiss.at/v1/satellites/25544";
-
-// const DataContext = createContext({ first: "Ryan", last: "Heupler" });
 
 const useFetch = url => {
   const [data, setData] = useState(null);
